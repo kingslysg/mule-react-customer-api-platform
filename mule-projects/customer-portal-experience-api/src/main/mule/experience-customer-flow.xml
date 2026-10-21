@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+        http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+  <!-- Business flow: normalize input, call Process API, and adapt its response. -->
+  <flow name="experience-customer">
+    <logger level="INFO" message="Handling customer profile request in Experience API" />
+    <ee:transform doc:name="Normalize request with DataWeave">
+      <ee:message>
+        <ee:set-payload resource="dw/experience-normalize-request.dwl" />
+      </ee:message>
+    </ee:transform>
+    <http:request method="POST" config-ref="process-api-request" path="/api/customer" doc:name="Call Process API">
+      <http:headers><![CDATA[#[{"Content-Type": "application/json"}]]]></http:headers>
+    </http:request>
+    <ee:transform doc:name="Adapt response with DataWeave">
+      <ee:message>
+        <ee:set-payload resource="dw/experience-adapt-response.dwl" />
+      </ee:message>
+    </ee:transform>
+  </flow>
+</mule>

@@ -1,0 +1,7 @@
+/deployment/artifacts/
+/reactJS-project/node_modules/
+/reactJS-project/dist/
+.DS_Store
+
+# Maven build output
+**/target/

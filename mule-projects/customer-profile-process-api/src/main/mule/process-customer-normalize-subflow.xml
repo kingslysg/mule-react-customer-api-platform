@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+  <!-- Reusable subflow: normalize the country code and resolve its display name. -->
+  <sub-flow name="normalize-customer-request">
+    <ee:transform doc:name="Normalize country code with DataWeave">
+      <ee:message>
+        <ee:set-payload resource="dw/process-normalize-customer-request.dwl" />
+      </ee:message>
+    </ee:transform>
+  </sub-flow>
+</mule>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+        http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+  <!-- Process layer: normalize input, call System API, and identify orchestration. -->
+  <flow name="post-customer">
+    <logger level="INFO" message="Orchestrating customer profile request in Process API" />
+    <flow-ref name="normalize-customer-request" doc:name="Normalize input with DataWeave subflow" />
+    <http:request method="POST" config-ref="system-api-request" path="/api/customer" doc:name="Call System API">
+      <http:headers><![CDATA[#[{"Content-Type": "application/json"}]]]></http:headers>
+    </http:request>
+    <ee:transform doc:name="Add Process API layer with DataWeave">
+      <ee:message>
+        <ee:set-payload resource="dw/process-build-customer-profile.dwl" />
+      </ee:message>
+    </ee:transform>
+  </flow>
+</mule>

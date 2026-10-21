@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd">
+
+  <!-- APIkit configuration is separated from the implementation flows. -->
+  <apikit:config name="process-api-config" api="api/process-api.raml"
+                 outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus">
+    <apikit:flow-mappings>
+      <apikit:flow-mapping resource="/customer" action="post" flow-ref="post-customer" />
+    </apikit:flow-mappings>
+  </apikit:config>
+</mule>

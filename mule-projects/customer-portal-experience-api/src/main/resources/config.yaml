@@ -1,0 +1,7 @@
+http:
+  port: "8083"
+process:
+  api:
+    protocol: "HTTP"
+    host: "127.0.0.1"
+    port: "8082"

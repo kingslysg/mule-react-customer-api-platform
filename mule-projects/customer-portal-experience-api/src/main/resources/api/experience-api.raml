@@ -1,0 +1,61 @@
+#%RAML 1.0
+title: Customer Experience API
+version: v1
+baseUri: http://localhost:8083/api
+mediaType: application/json
+
+types:
+  CustomerLookupRequest:
+    type: object
+    properties:
+      name:
+        type: string
+        minLength: 1
+      countryCode:
+        type: string
+        enum: [US, IN, CA, GB]
+    example:
+      name: Merlin
+      countryCode: IN
+  CustomerProfile:
+    type: object
+    properties:
+      name: string
+      countryCode: string
+      countryName: string
+      message: string
+      customer:
+        type: object
+        properties:
+          id: string
+          status: string
+          plan: string
+      source: string
+      systemApi: string
+      processApi: string
+      experienceApi: string
+    example:
+      name: Merlin
+      countryCode: IN
+      countryName: India
+      message: Hello, Merlin! Here is your mock customer profile for India.
+      customer:
+        id: CUST-1001
+        status: ACTIVE
+        plan: Learning Demo
+      source: System API mock data
+      systemApi: System API
+      processApi: Process API
+      experienceApi: Experience API
+
+/customer:
+  post:
+    description: Look up a profile through the Process API using a two-letter country code.
+    body:
+      application/json:
+        type: CustomerLookupRequest
+    responses:
+      200:
+        body:
+          application/json:
+            type: CustomerProfile
