@@ -72,17 +72,17 @@ Run these commands from a terminal while the Mule APIs are running. The complete
 ```bash
 curl -i -X POST 'http://localhost:8083/api/customer' \
   -H 'Content-Type: application/json' \
-  -d '{"name":"Merlin","countryCode":"IN"}'
+  -d '{"name":"Kingsly","countryCode":"US"}'
 ```
 
 Expected: **HTTP 200** and JSON containing the following values (field order and whitespace may differ):
 
 ```json
 {
-  "name": "Merlin",
-  "countryCode": "IN",
-  "countryName": "India",
-  "message": "Hello, Merlin! Here is your mock customer profile for India.",
+  "name": "Kingsly",
+  "countryCode": "US",
+  "countryName": "United States",
+  "message": "Hello, Kingsly! Here is your mock customer profile for United States.",
   "customer": {
     "id": "CUST-1001",
     "status": "ACTIVE",
@@ -100,10 +100,10 @@ Expected: **HTTP 200** and JSON containing the following values (field order and
 ```bash
 curl -i -X POST 'http://localhost:8082/api/customer' \
   -H 'Content-Type: application/json' \
-  -d '{"name":"Merlin","countryCode":"IN"}'
+  -d '{"name":"Kingsly","countryCode":"US"}'
 ```
 
-Expected: **HTTP 200** with the same customer profile fields, including `countryName: "India"` and `processApi: "Process API"`. The Process API response does not include the Experience API field.
+Expected: **HTTP 200** with the same customer profile fields, including `countryName: "United States"` and `processApi: "Process API"`. The Process API response does not include the Experience API field.
 
 ### Test the mock System API directly
 
@@ -112,7 +112,7 @@ The System API accepts a country name as part of its mock request. Normally, the
 ```bash
 curl -i -X POST 'http://localhost:8084/api/customer' \
   -H 'Content-Type: application/json' \
-  -d '{"name":"Merlin","countryCode":"IN","countryName":"India"}'
+  -d '{"name":"Kingsly","countryCode":"US","countryName":"United States"}'
 ```
 
 Expected: **HTTP 200** with a mock profile including `customer.id: "CUST-1001"`, `customer.status: "ACTIVE"`, `customer.plan: "Learning Demo"`, `source: "System API mock data"`, and `systemApi: "System API"`.
@@ -124,7 +124,7 @@ The RAML request contract allows country codes `US`, `IN`, `CA`, and `GB`, and r
 ```bash
 curl -i -X POST 'http://localhost:8083/api/customer' \
   -H 'Content-Type: application/json' \
-  -d '{"name":"Merlin","countryCode":"ZZ"}'
+  -d '{"name":"Kingsly","countryCode":"ZZ"}'
 ```
 
 Expected: a **4xx validation response** from the API layer. The exact response body can vary by APIkit/runtime version. Also try omitting `name` or sending an empty string; the request should be rejected by the RAML contract.
